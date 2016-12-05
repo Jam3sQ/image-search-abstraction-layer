@@ -1,12 +1,17 @@
 'use strict'; 
-var express = require("express"); 
-var app = express(); 
-var port = process.env.PORT || 8080; 
+const express = require("express"); 
+const app = express(); 
+const images = require('google-images'); 
+const port = process.env.PORT || 8080; 
 
 //Two routes
 
 //Image search 
 //Takes 2 parameters
+//Use google npm
+
+
+
 //Whatever you're searching for 
     // I can get the image URLs, alt text and page urls for 
     // a set of images relating to a given search string.
