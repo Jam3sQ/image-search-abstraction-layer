@@ -1,4 +1,5 @@
 'use strict'; 
+
 const express = require("express"); 
 const app = express(); 
 const bing = require('node-bing-api')({ accKey: '7c467ba612e2420fb138f3bfc51f1312' }); //Using bing search API
@@ -20,7 +21,7 @@ app.get('/api/imagesearch/:search', function(req, res){
          }, function(error, response, body){
              
             if(error) console.error(error); 
-            var object = {}; 
+            var object = []; 
             for(var i = 0; i < body.value.length; i++){
                 object[i] = {
                   'url': body.value[i].contentUrl,  
@@ -28,18 +29,16 @@ app.get('/api/imagesearch/:search', function(req, res){
                   'thumbnails': body.value[i].thumbnailUrl, 
                   'context': body.value[i].hostPageUrl
                 }; 
-               
-                // console.log(object); 
+      
             }
-             res.end(JSON.stringify(object));
+            
+            //output images to user 
+            res.end(JSON.stringify(object));
              
         });
         
 });   
 
-    
-//pagination 
-//Past image searches
 app.listen(port, function(){
     console.log("App is listening on port:" + port); 
 })
