@@ -1,34 +1,44 @@
 'use strict'; 
 const express = require("express"); 
 const app = express(); 
-const bing = require('node-bing-api')({ accKey: '7c467ba612e2420fb138f3bfc51f1312' }); 
-const port = process.env.PORT || 8080; 
+const bing = require('node-bing-api')({ accKey: '7c467ba612e2420fb138f3bfc51f1312' }); //Using bing search API
+const port = process.env.PORT || 8080; //Setting port 
 
-bing.images("Ninja Turtles", {
-  top: 15,   // Number of results (max 50) 
-  skip: 3    // Skip first 3 result 
-  }, function(error, res, body){
-    console.log(body);
-  });
+//Routes 
 
-//Two routes
+//Landing page 
+app.get('/', function(req, res) {
+    res.end("Hi");
+}); 
 
-//Image search 
-//Takes 2 parameters
-
-
-
-
-//Whatever you're searching for 
-    // I can get the image URLs, alt text and page urls for 
-    // a set of images relating to a given search string.
+//Search images     
 app.get('/api/imagesearch/:search', function(req, res){
-    console.log(req.params.search + " " + req.query.offset); 
+    
+    //Use bing image search to find images 
+    bing.images(req.params.search, {
+        top: 5,   // Number of results (max 50) 
+         }, function(error, response, body){
+             
+            if(error) console.error(error); 
+            var object = {}; 
+            for(var i = 0; i < body.value.length; i++){
+                object[i] = {
+                  'url': body.value[i].contentUrl,  
+                  'snippet': body.value[i].name, 
+                  'thumbnails': body.value[i].thumbnailUrl, 
+                  'context': body.value[i].hostPageUrl
+                }; 
+               
+                // console.log(object); 
+            }
+             res.end(JSON.stringify(object));
+             
+        });
+        
 });   
 
     
 //pagination 
-//
 //Past image searches
 app.listen(port, function(){
     console.log("App is listening on port:" + port); 
