@@ -1,14 +1,13 @@
 'use strict'; 
 const express = require("express"); 
 const app = express(); 
-const images = require('google-images'); 
 const port = process.env.PORT || 8080; 
 
 //Two routes
 
 //Image search 
 //Takes 2 parameters
-//Use google npm
+
 
 
 
