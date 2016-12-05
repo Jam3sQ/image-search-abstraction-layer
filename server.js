@@ -17,10 +17,11 @@ app.get('/api/imagesearch/:search', function(req, res){
     
     //Use bing image search to find images 
     bing.images(req.params.search, {
-        top: 5,   // Number of results (max 50) 
+        top: 5,   // Number of results 
          }, function(error, response, body){
-             
+            //handle errors
             if(error) console.error(error); 
+            
             var object = []; 
             for(var i = 0; i < body.value.length; i++){
                 object[i] = {
@@ -29,14 +30,11 @@ app.get('/api/imagesearch/:search', function(req, res){
                   'thumbnails': body.value[i].thumbnailUrl, 
                   'context': body.value[i].hostPageUrl
                 }; 
-      
             }
             
             //output images to user 
             res.end(JSON.stringify(object));
-             
         });
-        
 });   
 
 app.listen(port, function(){
